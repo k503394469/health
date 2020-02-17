@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>布局</title>
+    <style>
+        .el-header, .el-footer {
+            background-color: #00c7d1;
+            color: #333;
+            text-align: left;
+            line-height: 60px;
+        }
+        .el-aside {
+            background-color: #b4dee6;
+            color: #333;
+            text-align: center;
+            line-height: 200px;
+        }
+        .el-main {
+            background-color: #c8e1f3;
+            color: #333;
+            text-align: center;
+            line-height: 590px;
+        }
+    </style>
+    <script src="../plugins/jquery-3.4.1.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/index.css">
+    <script src="../plugins/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="../plugins/index.js"></script>
+    <script>
+        $(function () {
+            let vue = new Vue({
+                el: "#app"
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header>Header</el-header>
+        <el-container>
+            <el-aside width="200px">Aside</el-aside>
+            <el-container>
+                <el-main>Main</el-main>
+                <el-footer>Footer</el-footer>
+            </el-container>
+        </el-container>
+    </el-container>
+</div>
+</body>
+</html>

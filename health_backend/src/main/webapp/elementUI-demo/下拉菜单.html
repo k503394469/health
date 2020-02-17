@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>下拉</title>
+    <script src="../plugins/jquery-3.4.1.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/index.css">
+    <script src="../plugins/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="../plugins/index.js"></script>
+    <script>
+        $(function () {
+            let vue = new Vue({
+                el: "#app",
+                methods: {
+                    go() {
+                        location.href = "https://www.google.com"
+                    }
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="app">
+    <el-dropdown split-button size="small" trigger="click">
+        个人中心
+        <el-dropdown-menu>
+            <el-dropdown-item @click.native="go" >退出系统</el-dropdown-item>
+            <el-dropdown-item >修改密码</el-dropdown-item>
+            <el-dropdown-item divided>联系管理员</el-dropdown-item>
+        </el-dropdown-menu>
+    </el-dropdown>
+</div>
+</body>
+</html>
