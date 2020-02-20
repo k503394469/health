@@ -55,4 +55,8 @@
     <select id="findById" parameterType="Integer" resultType="com.liu.pojo.CheckItem">
         select * from t_checkitem where id=#{id}
     </select>
+    <!--在新建检查组时查询检查项-->
+    <select id="findAll" resultType="com.liu.pojo.CheckItem">
+        select * from t_checkitem
+    </select>
 </mapper>

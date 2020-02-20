@@ -285,6 +285,19 @@
                 },
                 //添加
                 handleAdd () {
+                    axios.post("/checkgroup/add.do?checkitemIds="+this.checkitemIds,this.formData).then((res)=>{
+                        this.dialogFormVisible=false;
+                        if (res.data.flag){
+                            this.$message({
+                                type:'success',
+                                message:res.data.message
+                            });
+                        }else {
+                            this.$message.error(res.data.message);
+                        }
+                    }).finally(()=>{
+                        this.findPage();
+                    });
                 },
                 //分页查询
                 findPage() {
@@ -297,6 +310,18 @@
                 handleCreate() {
                     this.resetForm();
                     this.dialogFormVisible=true;
+                    this.activeName='first';//每次打开窗口,默认选择信息页tab
+                    this.checkitemIds=[];//每次重置复选框
+                    //查询所有<检查项>信息,赋值给tableData变量
+                    axios.get("/checkitem/findAll.do").then((res)=>{
+                       if (res.data.flag){
+                           //查询成功
+                           this.tableData=res.data.data;
+                       } else {
+                           //查询失败
+                           this.$message.error(res.data.message);
+                       }
+                    });
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
