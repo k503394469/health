@@ -301,6 +301,16 @@
                 },
                 //分页查询
                 findPage() {
+                    var param={
+                        currentPage: this.pagination.currentPage,
+                        pageSize: this.pagination.pageSize,
+                        queryString: this.pagination.queryString
+                    };
+                    axios.post("/checkgroup/findPage.do",param).then((res)=>{
+                        //返回数据展示
+                        this.dataList=res.data.rows;//数据
+                        this.pagination.total=res.data.total;
+                    });
                 },
                 // 重置表单
                 resetForm() {
@@ -328,6 +338,8 @@
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    this.pagination.currentPage=currentPage;
+                    this.findPage();
                 },
                 // 删除
                 handleDelete(row) {
