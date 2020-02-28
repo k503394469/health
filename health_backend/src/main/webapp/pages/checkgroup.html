@@ -335,6 +335,30 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    // alert(row.id)
+                    this.dialogFormVisible4Edit=true;
+                    //ajax查询检查组并回显
+                    axios.get("/checkgroup/findById.do?id="+row.id).then((res)=>{
+                       if (res.data.flag){
+                           this.formData=res.data.data;
+                       } else {
+                           this.$message.error(res.data.message);
+                       }
+                    });
+                    //展示包含在检查组里面的检查项
+                    axios.get("/checkitem/findAll.do").then((res)=>{
+                        if (res.data.flag){
+                            //查询成功
+                            this.tableData=res.data.data;
+                            //根据检查组ID查询所包含检查项的所有ID,以List<Integer>类型返回
+                            axios.get("/checkgroup/findCheckItemIdsByCheckGroupId.do?id="+row.id).then((res)=>{
+                                this.checkitemIds=res.data.data;
+                            });
+                        } else {
+                            //查询失败
+                            this.$message.error(res.data.message);
+                        }
+                    });
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
