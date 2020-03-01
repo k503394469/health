@@ -24,4 +24,41 @@
             where helpCode like '%${value}%' or code like '%${value}%' or name like '%${value}%'
         </if>
     </select>
+    <select id="findById" parameterType="Integer" resultType="com.liu.pojo.CheckGroup">
+        select * from t_checkgroup where id=#{id};
+    </select>
+    <!--通过检查组id,获取所关联的检查项ID-->
+    <select id="findCheckItemIdsByCheckGroupId" parameterType="Integer" resultType="String">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{checkgroup_id}
+    </select>
+
+    <!--(#{code},#{name},#{sex},#{helpCode},#{remark},#{attention})-->
+    <update id="edit" parameterType="com.liu.pojo.CheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="name != null">   
+                name = #{name},  
+            </if>  
+            <if test="sex != null"> 
+                 sex = #{sex},  
+            </if>
+            <if test="code != null"> 
+                 code = #{code},  
+            </if>  
+            <if test="helpCode != null"> 
+                 helpCode = #{helpCode},  
+            </if>  
+            <if test="attention != null"> 
+                 attention = #{attention},  
+            </if>  
+            <if test="remark != null"> 
+                  remark = #{remark},  
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <!--删除关联关系-->
+    <delete id="deleteAssociation" parameterType="Integer">
+        delete from t_checkgroup_checkitem where checkgroup_id=#{checkgroup_id}
+    </delete>
 </mapper>
