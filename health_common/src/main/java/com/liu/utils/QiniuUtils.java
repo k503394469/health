@@ -10,6 +10,7 @@ import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -18,11 +19,11 @@ import java.io.InputStream;
  * 七牛云工具类
  */
 public class QiniuUtils {
-    public  static String accessKey = "k6BkvEtMjzy-8ZF-0ZhIunNgeOFaCs99RIlAIjvn";
-    public  static String secretKey = "fhSt_3plNx1rrgeYHSxHFKtF9FJoCWUJHNzFz1FE";
-    public  static String bucket = "myhealthpicture";
+    public static String accessKey = "k6BkvEtMjzy-8ZF-0ZhIunNgeOFaCs99RIlAIjvn";
+    public static String secretKey = "fhSt_3plNx1rrgeYHSxHFKtF9FJoCWUJHNzFz1FE";
+    public static String bucket = "myhealthpicture";
 
-    public static void upload2Qiniu(String filePath,String fileName){
+    public static void upload2Qiniu(String filePath, String fileName) {
         //构造一个带指定Zone对象的配置类
         Configuration cfg = new Configuration(Region.huabei());
         UploadManager uploadManager = new UploadManager(cfg);
@@ -43,9 +44,9 @@ public class QiniuUtils {
     }
 
     //上传文件
-    public static void upload2Qiniu(byte[] bytes, String fileName){
+    public static void upload2Qiniu(byte[] bytes, String fileName) {
         //构造一个带指定Zone对象的配置类
-        Configuration cfg = new Configuration(Zone.zone0());
+        Configuration cfg = new Configuration(Region.huabei());
         //...其他参数参考类注释
         UploadManager uploadManager = new UploadManager(cfg);
 
@@ -71,9 +72,9 @@ public class QiniuUtils {
     }
 
     //删除文件
-    public static void deleteFileFromQiniu(String fileName){
+    public static void deleteFileFromQiniu(String fileName) {
         //构造一个带指定Zone对象的配置类
-        Configuration cfg = new Configuration(Zone.zone0());
+        Configuration cfg = new Configuration(Region.huabei());
         String key = fileName;
         Auth auth = Auth.create(accessKey, secretKey);
         BucketManager bucketManager = new BucketManager(auth, cfg);

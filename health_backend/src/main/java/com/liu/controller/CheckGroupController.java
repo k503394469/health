@@ -65,4 +65,14 @@ public class CheckGroupController {
             return new Result(false, MessageConstant.EDIT_CHECKGROUP_FAIL);
         }
     }
+    @RequestMapping("/findAll")
+    public Result findAll(){
+        try {
+            List<CheckGroup> checkGroupList=checkGroupService.findAll();
+            return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,checkGroupList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
+        }
+    }
 }

@@ -61,4 +61,7 @@
     <delete id="deleteAssociation" parameterType="Integer">
         delete from t_checkgroup_checkitem where checkgroup_id=#{checkgroup_id}
     </delete>
+    <select id="findAll" resultType="com.liu.pojo.CheckGroup">
+        select * from t_checkgroup
+    </select>
 </mapper>
