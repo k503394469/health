@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liu.dao.SetMealDao">
+    <!--增加检查组-->
+    <insert id="add" parameterType="com.liu.pojo.Setmeal">
+        <!--keyProperty="id" 获取插入后的ID,赋给POJO类的某个属性(这个例子为id)-->
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_setmeal(code,name,sex,helpCode,remark,attention,age,price,img)
+        values
+        (#{code},#{name},#{sex},#{helpCode},#{remark},#{attention},#{age},#{price},#{img})
+    </insert>
+    <!--设置多对多关系-->
+    <insert id="setSetMealAndCheckGroup" parameterType="Map">
+        insert into t_setmeal_checkgroup(checkgroup_id,setmeal_id)
+        values
+        (#{checkgroupId},#{setmealId})
+    </insert>
+
+</mapper>

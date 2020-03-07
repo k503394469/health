@@ -252,6 +252,14 @@
             methods: {
                 //文件上传成功后的钩子，response为服务端返回的值，file为当前上传的文件封装成的js对象
                 handleAvatarSuccess(response, file) {
+                    //拿到imageUrl,用于页面图片预览
+                    this.imageUrl='http://q6kl4ec0l.bkt.clouddn.com/'+response.data;
+                    this.$message({
+                        type:response.flag?'success':'error',
+                        message:response.message
+                    });
+                    //模型数据(图片名称),直接保存到数据库
+                    this.formData.img=response.data;
                 },
                 //上传图片之前执行
                 beforeAvatarUpload(file) {
@@ -267,17 +275,19 @@
                 },
                 //添加
                 handleAdd () {
-                    console.log('弹出前');
-                    this.dialogFormVisible=true;
-                    console.log('弹出后');
-                    this.resetForm();
-                    //发送请求查询检查组数据,转为JSON,展示到tableData
-                    axios.get("/checkgroup/findAll.do").then((res)=>{
-                       if (res.data.flag){
-                           this.tableData=res.data.data;
-                       } else {
-                           this.$message.error(res.data.message);
-                       }
+                    //添加(套餐,关联检查组)
+                    axios.post("/setmeal/add.do?checkgroupIds="+this.checkgroupIds,this.formData).then((res)=>{
+                        if (res.data.flag){
+                            this.$message({
+                                type: 'success',
+                                message:res.data.message
+                            });
+                        }else {
+                            this.$message.error(res.data.message);
+                        }
+                    }).finally(()=>{
+                        this.findPage();
+                        this.dialogFormVisible=false;
                     });
                 },
                 //分页查询
@@ -287,10 +297,21 @@
                 resetForm() {
                     this.formData={};
                     this.activeName='first';
+                    this.imageUrl=null;
+                    this.checkgroupIds=[];
                 },
                 // 弹出添加窗口
                 handleCreate() {
-
+                    this.dialogFormVisible=true;
+                    this.resetForm();
+                    //发送请求查询检查组数据,转为JSON,展示到tableData
+                    axios.get("/checkgroup/findAll.do").then((res)=>{
+                        if (res.data.flag){
+                            this.tableData=res.data.data;
+                        } else {
+                            this.$message.error(res.data.message);
+                        }
+                    });
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
