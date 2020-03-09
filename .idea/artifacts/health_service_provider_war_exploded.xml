@@ -90,6 +90,7 @@
           <element id="library" level="project" name="Maven: com.google.j2objc:j2objc-annotations:1.1" />
           <element id="library" level="project" name="Maven: org.codehaus.mojo:animal-sniffer-annotations:1.17" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
+          <element id="library" level="project" name="Maven: javax.annotation:jsr250-api:1.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

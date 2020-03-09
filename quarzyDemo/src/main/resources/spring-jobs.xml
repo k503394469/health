@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--注册自定义Job-->
+    <bean id="job1" class="com.liu.jobs.JobDemo1"></bean>
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!--注入任务目标对象-->
+        <property name="targetObject" ref="job1"></property>
+        <!--注入任务目标方法-->
+        <property name="targetMethod" value="run"></property>
+    </bean>
+    <!--注册触发器工厂,指定任务触发时间-->
+    <bean id="myTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="jobDetail"></property>
+        <!--Cron表达式-->
+        <property name="cronExpression">
+            <value>0/5 * * * * ? </value>
+        </property>
+    </bean>
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <!--可以注册多个触发器-->
+        <property name="triggers">
+            <list>
+                <ref bean="myTrigger"></ref>
+            </list>
+        </property>
+    </bean>
+</beans>

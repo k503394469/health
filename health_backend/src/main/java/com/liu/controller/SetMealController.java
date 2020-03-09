@@ -3,6 +3,8 @@ package com.liu.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.liu.constant.MessageConstant;
 import com.liu.constant.RedisConstant;
+import com.liu.entity.PageResult;
+import com.liu.entity.QueryPageBean;
 import com.liu.entity.Result;
 import com.liu.pojo.Setmeal;
 import com.liu.service.SetMealService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.JedisPool;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -23,7 +26,8 @@ import java.util.UUID;
 @RequestMapping("/setmeal")
 public class SetMealController {
     //使用JedisPool操作临时图片保存
-    @Qualifier("jedisPool")
+    @Autowired
+//    @Resource(name = "jedisPool")
     private JedisPool jedisPool;
     //文件上传
     @RequestMapping("/upload")
@@ -31,7 +35,7 @@ public class SetMealController {
         //截取后缀
         String originalFilename = imgFile.getOriginalFilename();
         int indexOfEx = originalFilename.lastIndexOf(".");
-        String extension = originalFilename.substring(indexOfEx - 1);
+        String extension = originalFilename.substring(indexOfEx);
         String fileName= UUID.randomUUID().toString()+extension;
         try {
             QiniuUtils.upload2Qiniu(imgFile.getBytes(),fileName);
@@ -55,6 +59,11 @@ public class SetMealController {
             return new Result(false,MessageConstant.ADD_SETMEAL_FAIL);
         }
         return new Result(true,MessageConstant.ADD_SETMEAL_SUCCESS);
+    }
+    @RequestMapping("/findAll")
+    public PageResult findAll(@RequestBody QueryPageBean queryPageBean){
+        PageResult pageResult=setMealService.pageQuery(queryPageBean.getCurrentPage(),queryPageBean.getPageSize(),queryPageBean.getQueryString());
+        return pageResult;
     }
 
 }
