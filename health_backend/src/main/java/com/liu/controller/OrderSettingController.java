@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 预约设置控制器
@@ -37,10 +38,23 @@ public class OrderSettingController {
                 orderSettingList.add(orderSetting);
             }
             orderSettingService.add(orderSettingList);
-            return new Result(false,MessageConstant.IMPORT_ORDERSETTING_SUCCESS);
+            return new Result(true,MessageConstant.IMPORT_ORDERSETTING_SUCCESS);
         } catch (IOException e) {
             e.printStackTrace();
             return new Result(false,MessageConstant.IMPORT_ORDERSETTING_FAIL);
         }
+    }
+    /**
+     * 根据月份查询预约设置信息
+     */
+    @RequestMapping("/getOrderSettingByMonth")
+    public Result getOrderSettingByMonth(String date){//yyyy-MM
+        try {
+            List<Map<String,Integer>>dataList=orderSettingService.getOrderSettingByMonth(date);
+            return new Result(true,MessageConstant.GET_ORDERSETTING_SUCCESS,dataList);
+        }catch (Exception e){
+            return new Result(false,MessageConstant.GET_ORDERSETTING_FAIL);
+        }
+
     }
 }

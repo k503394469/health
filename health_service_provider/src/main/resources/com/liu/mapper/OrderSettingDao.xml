@@ -11,6 +11,10 @@
         update t_ordersetting set number=#{number} where orderDate=#{orderDate}
     </update>
     <select id="findCountByOrderDate" parameterType="java.util.Date" resultType="int">
-        select * from t_ordersetting where orderDate=#{orderDate}
+        select count(*) from t_ordersetting where orderDate=#{orderDate}
+    </select>
+    <!--根据日期范围-->
+    <select id="getOrderSettingByMonth" parameterType="Map" resultType="com.liu.pojo.OrderSetting">
+        select * from t_ordersetting where orderDate between #{begin} and #{end}
     </select>
 </mapper>
