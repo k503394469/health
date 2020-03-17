@@ -144,6 +144,33 @@
         methods: {
             //预约设置
             handleOrderSet(day) {
+                // alert(this.formatDate(day.getFullYear(),day.getMonth()+1,day.getDate()))
+                this.$prompt('请输入要修改的人数', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    inputPattern: /^[0-9]*[1-9][0-9]*$/,
+                    inputErrorMessage: '人数格式不正确'
+                }).then(({value}) => {
+                    axios.post("/ordersetting/editNumberByDate.do",{
+                        orderDate:this.formatDate(day.getFullYear(),day.getMonth()+1,day.getDate()),
+                        number:value
+                    }).then((res)=>{
+                        this.initData(this.formatDate(day.getFullYear(),day.getMonth()+1,1));
+                        if (res.data.flag){
+                            this.$message({
+                                type:'success',
+                                message:res.data.message
+                            });
+                        }else {
+                            this.$message.error(res.data.message)
+                        }
+                    }).finally(()=>{})
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消输入'
+                    });
+                });
             },
             //上传之前进行文件格式校验
             beforeUpload(file) {
@@ -234,9 +261,9 @@
                 // ];
                 //发送请求,根据当前页面对应的月份查询数据库,封装为页面展示效果
                 axios.post("/ordersetting/getOrderSettingByMonth.do?date=" + this.currentYear + "-" + this.currentMonth).then((res) => {
-                    if (res.data.flag){
-                        this.leftobj=res.data.data;
-                    }else {
+                    if (res.data.flag) {
+                        this.leftobj = res.data.data;
+                    } else {
                         this.$message.error(res.data.message);
                     }
                 });

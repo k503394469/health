@@ -61,4 +61,20 @@ public class OrderSettingServiceImpl implements OrderSettingService {
         }
         return dataList;
     }
+
+    @Override
+    public void editNumberByDate(OrderSetting orderSetting) {
+        //根据日期判断是否已经有数据
+        Date orderDate = orderSetting.getOrderDate();
+        int countByOrderDate = orderSettingDao.findCountByOrderDate(orderDate);
+        if (countByOrderDate>0){
+            //当前日期已经有数据
+            //执行更新操作
+            orderSettingDao.editNumberByOrderDate(orderSetting);
+        }else {
+            //当前日期没有数据
+            //执行插入
+            orderSettingDao.add(orderSetting);
+        }
+    }
 }

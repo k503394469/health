@@ -79,6 +79,9 @@
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.0.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-taglibs:5.0.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-acl:5.0.5.RELEASE" />
+          <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-core:3.3.1" />
+          <element id="library" level="project" name="Maven: org.json:json:20170516" />
+          <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-dysmsapi:1.0.0" />
           <element id="library" level="project" name="Maven: org.apache.curator:curator-framework:4.2.0" />
           <element id="library" level="project" name="Maven: org.apache.curator:curator-client:4.2.0" />
           <element id="library" level="project" name="Maven: com.google.guava:guava:27.0.1-jre" />

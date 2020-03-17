@@ -6,6 +6,7 @@ import com.liu.entity.Result;
 import com.liu.pojo.OrderSetting;
 import com.liu.service.OrderSettingService;
 import com.liu.utils.POIUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,6 +56,18 @@ public class OrderSettingController {
         }catch (Exception e){
             return new Result(false,MessageConstant.GET_ORDERSETTING_FAIL);
         }
-
     }
+    /**
+     * 根据日期改变某一天的预约人数
+     */
+    @RequestMapping("/editNumberByDate")
+    public Result editNumberByDate(@RequestBody OrderSetting orderSetting){//实体类中获取参数
+        try {
+            orderSettingService.editNumberByDate(orderSetting);
+            return new Result(true,MessageConstant.ORDERSETTING_SUCCESS);
+        }catch (Exception e){
+            return new Result(false,MessageConstant.ORDERSETTING_FAIL);
+        }
+    }
+
 }
