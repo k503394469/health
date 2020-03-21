@@ -25,6 +25,7 @@
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
     <dubbo:annotation package="com.liu.controller"/>
     <dubbo:consumer timeout="600000" check="false"/>
+    <dubbo:application name="health_mobile" />
     <import resource="spring-redis.xml"/>
 
 </beans>

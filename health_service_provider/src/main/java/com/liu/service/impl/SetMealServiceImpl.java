@@ -15,6 +15,7 @@ import redis.clients.jedis.JedisPool;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service(interfaceClass = SetMealService.class)
@@ -41,6 +42,16 @@ public class SetMealServiceImpl implements SetMealService {
         PageHelper.startPage(currentPage,pageSize);
         Page<Setmeal> setmealPage=setMealDao.findByCondition(queryString);
         return new PageResult(setmealPage.getTotal(),setmealPage.getResult());
+    }
+
+    @Override
+    public List<Setmeal> findAll() {
+        return setMealDao.findAll();
+    }
+
+    @Override
+    public Setmeal findById(Integer id) {
+        return setMealDao.findById(id);
     }
 
     //增加setmeal和checkgroup表关联

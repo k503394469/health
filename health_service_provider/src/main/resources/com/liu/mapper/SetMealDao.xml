@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.liu.dao.SetMealDao">
+    <resultMap id="baseResultMap" type="com.liu.pojo.Setmeal">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+    </resultMap>
+    <resultMap id="findByIdResultMap" type="com.liu.pojo.Setmeal" extends="baseResultMap">
+        <collection property="checkGroups"
+                    javaType="ArrayList"
+                    ofType="com.liu.pojo.CheckGroup"
+                    column="id"
+                    select="com.liu.mapper.CheckGroupDao.findCheckGroupById"></collection>
+    </resultMap>
     <!--增加检查组-->
     <insert id="add" parameterType="com.liu.pojo.Setmeal">
         <!--keyProperty="id" 获取插入后的ID,赋给POJO类的某个属性(这个例子为id)-->
@@ -23,5 +42,12 @@
         <if test="value!=null and value.length>0">
             where code like '${value}' or name like '${value}' or helpCode like '${value}'
         </if>
+    </select>
+    <!--查询所有-->
+    <select id="findAll" resultType="com.liu.pojo.Setmeal">
+        select * from t_setmeal
+    </select>
+    <select id="findById" parameterType="Integer" resultMap="findByIdResultMap">
+        select * from t_setmeal where id=#{id}
     </select>
 </mapper>
