@@ -16,7 +16,6 @@
     </resultMap>
     <resultMap id="findByIdResultMap" type="com.liu.pojo.Setmeal" extends="baseResultMap">
         <collection property="checkGroups"
-                    javaType="ArrayList"
                     ofType="com.liu.pojo.CheckGroup"
                     column="id"
                     select="com.liu.mapper.CheckGroupDao.findCheckGroupById"></collection>
