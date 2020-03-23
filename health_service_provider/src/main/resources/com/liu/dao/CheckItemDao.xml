@@ -61,6 +61,6 @@
     </select>
     <!--根据检查组Mapper传过来的ID,查询检查项-->
     <select id="findCheckItemById" parameterType="Integer" resultType="com.liu.pojo.CheckItem">
-        select * from t_checkitem where id in(select * from t_checkgroup_checkitem where checkgroup_id=#{id})
+        select * from t_checkitem where id in(select checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{id})
     </select>
 </mapper>

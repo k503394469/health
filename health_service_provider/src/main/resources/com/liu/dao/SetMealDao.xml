@@ -18,7 +18,7 @@
         <collection property="checkGroups"
                     ofType="com.liu.pojo.CheckGroup"
                     column="id"
-                    select="com.liu.mapper.CheckGroupDao.findCheckGroupById"></collection>
+                    select="com.liu.dao.CheckGroupDao.findCheckGroupById"></collection>
     </resultMap>
     <!--增加检查组-->
     <insert id="add" parameterType="com.liu.pojo.Setmeal">

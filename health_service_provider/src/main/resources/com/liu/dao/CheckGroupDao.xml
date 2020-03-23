@@ -15,7 +15,7 @@
         <collection property="checkItems"
                     ofType="com.liu.pojo.CheckItem"
                     column="id"
-                    select="com.liu.mapper.CheckItemDao.findCheckItemById">
+                    select="com.liu.dao.CheckItemDao.findCheckItemById">
         </collection>
     </resultMap>
     <!--增加检查组-->
