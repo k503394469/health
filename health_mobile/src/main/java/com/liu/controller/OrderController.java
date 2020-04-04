@@ -9,6 +9,7 @@ import com.liu.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.JedisPool;
 
@@ -27,7 +28,7 @@ public class OrderController {
         String validateCodeHtml = (String) map.get("validateCode");
         //redis中获取验证码,进行比对
         String validateCodeRedis = jedisPool.getResource().get(telephone + RedisMessageConstant.SENDTYPE_ORDER);
-        if (validateCodeHtml.equals(validateCodeRedis)&&validateCodeRedis!=null&&validateCodeHtml!=null){
+        if (validateCodeRedis!=null&&validateCodeHtml!=null&&validateCodeHtml.equals(validateCodeRedis)){
             //在线预约或者电话预约
             map.put("orderType", Order.ORDERTYPE_WEIXIN);
             //比对成功
@@ -47,9 +48,9 @@ public class OrderController {
         }
     }
     @RequestMapping("/findById")
-    public Result findById(Integer orderId){
+    public Result findById(Integer id){
         try {
-            Map orderMap=orderService.findById(orderId);
+            Map orderMap=orderService.findById(id);
             return new Result(true,MessageConstant.QUERY_ORDER_SUCCESS,orderMap);
         }catch (Exception e){
             return new Result(false,MessageConstant.QUERY_ORDER_FAIL);

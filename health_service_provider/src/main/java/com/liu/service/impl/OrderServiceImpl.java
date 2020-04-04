@@ -102,6 +102,6 @@ public class OrderServiceImpl implements OrderService {
             Date orderDate = (Date) map.get("orderDate");
             map.put("orderDate",DateUtils.parseDate2String(orderDate));
         }
-        return null;
+        return map;
     }
 }
