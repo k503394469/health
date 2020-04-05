@@ -37,6 +37,7 @@ public class ValidateCodeController {
         jedisPool.getResource().setex(telephone+ RedisMessageConstant.SENDTYPE_ORDER,5*60,validateCode.toString());
         return new Result(true,MessageConstant.SEND_VALIDATECODE_SUCCESS);
     }
+    @RequestMapping("/send4Login")
     //用户登录时发送的验证码
     public Result send4Login(String telephone){
         Integer validateCode = ValidateCodeUtils.generateValidateCode(6);

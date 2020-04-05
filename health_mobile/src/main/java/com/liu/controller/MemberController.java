@@ -1,6 +1,7 @@
 package com.liu.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.liu.constant.MessageConstant;
 import com.liu.constant.RedisMessageConstant;
 import com.liu.entity.Result;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.JedisPool;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Map;
 
@@ -25,7 +28,8 @@ public class MemberController {
     private MemberService memberService;
     @Autowired
     private JedisPool jedisPool;
-    public Result login(@RequestBody Map map){
+    @RequestMapping("/login")
+    public Result login(HttpServletResponse response, @RequestBody Map map){
         String telephone = (String) map.get("telephone");
         String validateCodeHtml = (String) map.get("validateCode");
         //Redis中取出保存的验证码
@@ -40,26 +44,19 @@ public class MemberController {
                 member.setRegTime(new Date());
                 member.setPhoneNumber(telephone);
                 memberService.add(member);
-                /**
-                 *
-                 * 到
-                 * 这
-                 * 里
-                 * 了
-                 *
-                 *
-                 *
-                 *
-                 *
-                 *
-                 *
-                 *
-                 */
             }
+            //向浏览器写入cookie,内容为手机号,跟踪用户
+            Cookie cookie=new Cookie("login_member_telephone",telephone);
+            cookie.setPath("/");
+            cookie.setMaxAge(60*60*24*30);
+            response.addCookie(cookie);
+            //转为JSON保存在Redis中
+            String json = JSON.toJSON(member).toString();
+            jedisPool.getResource().setex(telephone,60*30,json);
+            return new Result(true,MessageConstant.LOGIN_SUCCESS);
         }else {
             //错误
             return new Result(false, MessageConstant.VALIDATECODE_ERROR);
         }
-        return null;
     }
 }
