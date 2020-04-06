@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/security
+         http://www.springframework.org/schema/security/spring-security.xsd">
+    <security:http security="none" pattern="/pages/**"></security:http>
+    <!--自动配置,比如框架会提供一个默认登陆页面
+    use-expressions:是否使用SpringSecurity提供的表达式来描述权限
+         -->
+    <security:http auto-config="true" use-expressions="true">
+        <!--拦截所有请求-->
+        <!--access:指定访问角色或者访问权限-->
+        <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"></security:intercept-url>
+        <security:form-login
+                login-page="/pages/a.html"
+                username-parameter="username"
+                password-parameter="password"
+                login-processing-url="/login.do"
+                default-target-url="/index.html"
+                authentication-failure-url="/pages/a.html"
+        ></security:form-login>
+        <security:csrf disabled="true"/>
+    </security:http>
+    <!--认证管理器-->
+    <security:authentication-manager>
+        <!--配置认证提供者-->
+        <security:authentication-provider user-service-ref="userService">
+            <!--<security:user-service>-->
+                <!--具体用户,后期需要从数据库查询用户(动态)-->
+                <!--{noop}明文-->
+                <!--authorities:分配角色,与上面对应-->
+            <!--    <security:user name="admin" password="{noop}1234" authorities="ROLE_ADMIN"/>-->
+            <!--</security:user-service>-->
+        </security:authentication-provider>
+    </security:authentication-manager>
+    <!--配置实现接口自己写的Service-->
+    <bean id="userService" class="com.liu.service.SpringSecurityUserService">
+    </bean>
+</beans>

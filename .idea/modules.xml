@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/health_parent.iml" filepath="$PROJECT_DIR$/health_parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/health_service_provider/health_service_provider.iml" filepath="$PROJECT_DIR$/health_service_provider/health_service_provider.iml" />
       <module fileurl="file://$PROJECT_DIR$/quarzyDemo/quarzyDemo.iml" filepath="$PROJECT_DIR$/quarzyDemo/quarzyDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springsecuritydemo/springsecuritydemo.iml" filepath="$PROJECT_DIR$/springsecuritydemo/springsecuritydemo.iml" />
     </modules>
   </component>
 </project>
