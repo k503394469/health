@@ -2,10 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
          http://www.springframework.org/schema/beans/spring-beans.xsd
          http://www.springframework.org/schema/security
-         http://www.springframework.org/schema/security/spring-security.xsd">
+         http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--设置不用验证的页面-->
     <security:http security="none" pattern="/pages/**"></security:http>
     <!--自动配置,比如框架会提供一个默认登陆页面
     use-expressions:是否使用SpringSecurity提供的表达式来描述权限
@@ -13,7 +16,13 @@
     <security:http auto-config="true" use-expressions="true">
         <!--拦截所有请求-->
         <!--access:指定访问角色或者访问权限-->
+        <!--isAuthenticated只要认证通过便可以访问 -->
+        <security:intercept-url pattern="/index.html" access="isAuthenticated()"/>
+        <!--拥有add权限便可以访问-->
+        <security:intercept-url pattern="/pages/b.html" access="hasAuthority('add')"/>
+        <!--拥有ADMIN角色便可以访问,上下等效-->
         <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"></security:intercept-url>
+        <security:intercept-url pattern="/pages/d.html" access="hasRole('ADMIN')"/>
         <security:form-login
                 login-page="/pages/a.html"
                 username-parameter="username"
@@ -22,21 +31,34 @@
                 default-target-url="/index.html"
                 authentication-failure-url="/pages/a.html"
         ></security:form-login>
+        <!--退出登录-->
+        <security:logout logout-url="/logout.do"
+                         logout-success-url="/pages/a.html" invalidate-session="true"/>
         <security:csrf disabled="true"/>
     </security:http>
     <!--认证管理器-->
     <security:authentication-manager>
         <!--配置认证提供者-->
-        <security:authentication-provider user-service-ref="userService">
+        <security:authentication-provider user-service-ref="userService2">
             <!--<security:user-service>-->
-                <!--具体用户,后期需要从数据库查询用户(动态)-->
-                <!--{noop}明文-->
-                <!--authorities:分配角色,与上面对应-->
+            <!--具体用户,后期需要从数据库查询用户(动态)-->
+            <!--{noop}明文-->
+            <!--authorities:分配角色,与上面对应-->
             <!--    <security:user name="admin" password="{noop}1234" authorities="ROLE_ADMIN"/>-->
             <!--</security:user-service>-->
+            <!--指定密码加密方式-->
+            <security:password-encoder ref="passwordEncoder"></security:password-encoder>
         </security:authentication-provider>
     </security:authentication-manager>
     <!--配置实现接口自己写的Service-->
-    <bean id="userService" class="com.liu.service.SpringSecurityUserService">
-    </bean>
+    <bean id="userService" class="com.liu.service.SpringSecurityUserService"></bean>
+    <bean id="userService2" class="com.liu.service.SpringSecurityUserService2"></bean>
+
+    <!--使用bcrypt方式加密-->
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+    <context:component-scan base-package="com.liu.controller"></context:component-scan>
+    <mvc:annotation-driven/>
+    <!--开启注解方式-->
+    <security:global-method-security pre-post-annotations="enabled"/>
 </beans>
