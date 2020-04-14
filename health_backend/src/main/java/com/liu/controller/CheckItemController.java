@@ -7,6 +7,7 @@ import com.liu.entity.QueryPageBean;
 import com.liu.entity.Result;
 import com.liu.pojo.CheckItem;
 import com.liu.service.CheckItemService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +42,7 @@ public class CheckItemController {
         PageResult result = checkItemService.pageQuery(queryPageBean);
         return result;
     }
+    @PreAuthorize("hasAuthority('CHECKITEM_DELETE')")//如果要调用此方法,必须要有CHECKITEM_DELETE权限
     @RequestMapping("/delete")
     public Result delete(Integer id){
         try {

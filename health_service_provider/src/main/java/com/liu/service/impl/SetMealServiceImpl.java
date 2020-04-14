@@ -4,9 +4,11 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.liu.constant.RedisConstant;
+import com.liu.dao.OrderDao;
 import com.liu.dao.SetMealDao;
 import com.liu.entity.PageResult;
 import com.liu.pojo.Setmeal;
+import com.liu.service.OrderService;
 import com.liu.service.SetMealService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -29,6 +31,8 @@ import java.util.Map;
 @Service(interfaceClass = SetMealService.class)
 @Transactional
 public class SetMealServiceImpl implements SetMealService {
+    @Autowired
+    private OrderDao orderDao;
     @Autowired
     private SetMealDao setMealDao;
     @Autowired
@@ -115,6 +119,12 @@ public class SetMealServiceImpl implements SetMealService {
     @Override
     public Setmeal findById(Integer id) {
         return setMealDao.findById(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> findSetmealCount() {
+        List<Map<String, Object>> mapList= setMealDao.findSetmealCount();
+        return mapList;
     }
 
     //增加setmeal和checkgroup表关联

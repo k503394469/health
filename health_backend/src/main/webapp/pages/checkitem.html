@@ -232,6 +232,15 @@
             this.findPage();
         },
         methods: {
+            //权限报错方法
+            showMessage(res){
+                if (res=='Error:Request failed with status code 403'){
+                    this.$message.error("该账号权限不足");
+                }else {
+                    this.$message.error("未知错误");
+                    return;
+                }
+            },
             //编辑
             handleEdit() {
                 this.$refs['dataEditForm'].validate((vail) => {
@@ -340,6 +349,8 @@
                         } else {
                             this.$message.error(res.data.message);
                         }
+                    }).catch((res)=>{
+                        this.showMessage(res);
                     });
                 }).catch(() => {
                     //取消
