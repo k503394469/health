@@ -19,7 +19,7 @@ import java.util.Map;
 @Transactional
 public class CheckGroupServiceImpl implements CheckGroupService {
     @Autowired
-    CheckGroupDao checkGroupDao;
+    private CheckGroupDao checkGroupDao;
 
     @Override
     public void add(CheckGroup checkGroup, Integer[] checkitemIds) {
@@ -64,6 +64,14 @@ public class CheckGroupServiceImpl implements CheckGroupService {
     @Override
     public List<CheckGroup> findAll() {
         return checkGroupDao.findAll();
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        //中間テーブルのデータ削除
+        checkGroupDao.deleteAssociation(id);
+        //CheckGroupテーブルのデータ削除
+        checkGroupDao.deleteById(id);
     }
 
     //建立检查组与检查项关系

@@ -282,6 +282,14 @@
             this.findPage();
         },
         methods: {
+            showMessage(res){
+                if (res=='Error:Request failed with status code 403'){
+                    this.$message.error("该账号权限不足");
+                }else {
+                    this.$message.error("未知错误");
+                    return;
+                }
+            },
             //编辑
             handleEdit() {
                 axios.post("/checkgroup/edit.do?checkitemIds="+this.checkitemIds,this.formData).then((res)=>{
@@ -387,6 +395,28 @@
             },
             // 删除
             handleDelete(row) {
+                this.$confirm("削除しますか？","削除",{
+                    type: 'warning'
+                }).then(()=>{
+                    axios.get("/checkgroup/delete.do?id="+row.id).then((res)=>{
+                        if (res.data.flag){
+                            this.$message({
+                                type:'success',
+                                message: res.data.message
+                            });
+                            this.findPage();
+                        }else {
+                            this.$message.error(res.data.message);
+                        }
+                    }).catch((res)=>{
+                        this.showMessage(res);
+                    })
+                }).catch(()=>{
+                    this.$message({
+                        type: "info",
+                        message: "キャンセルしました"
+                    });
+                })
             }
         }
     })

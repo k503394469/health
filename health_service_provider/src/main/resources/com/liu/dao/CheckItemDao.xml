@@ -22,34 +22,34 @@
         delete from t_checkitem where id=#{id}
     </delete>
     <update id="editById" parameterType="com.liu.pojo.CheckItem">
-        update t_checkitem  
-        <set> 
-            <if test="name != null">   
-                name = #{name},
+        update `t_checkitem`
+        <trim prefix="set" suffixOverrides=","> 
+            <if test="name!=null">   
+                `name`=#{name},
             </if>
             <if test="sex!=null">
-                sex=#{sex},
+                `sex`=#{sex},
             </if>
             <if test="code!=null">
-                code=#{code},
+                `code`=#{code},
             </if>
             <if test="age!=null">
-                age=#{age},
+                `age`=#{age},
             </if>
             <if test="price!=null">
-                price=#{price},
+                `price`=#{price},
             </if>
             <if test="type!=null">
-                type=#{type},
+                `type`=#{type},
             </if>
             <if test="attention!=null">
-                attention=#{attention},
+                `attention`=#{attention},
             </if>
             <if test="remark!=null">
-                remark=#{remark},
+                `remark`=#{remark},
             </if>
-        </set>
-        where id = #{id}
+        </trim>
+        where `id`=#{id}
     </update>
     <!--用于编辑数据时,页面回显-->
     <select id="findById" parameterType="Integer" resultType="com.liu.pojo.CheckItem">

@@ -19,4 +19,5 @@ public interface CheckGroupService {
 
     List<CheckGroup> findAll();
 
+    void deleteById(Integer id);
 }

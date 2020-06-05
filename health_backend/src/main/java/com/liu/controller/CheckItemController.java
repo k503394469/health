@@ -38,7 +38,7 @@ public class CheckItemController {
     }
     @RequestMapping("/findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean){
-        System.out.println(queryPageBean.getQueryString());
+//        System.out.println(queryPageBean.getQueryString());
         PageResult result = checkItemService.pageQuery(queryPageBean);
         return result;
     }
